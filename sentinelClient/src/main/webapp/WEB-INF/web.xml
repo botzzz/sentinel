@@ -1,0 +1,32 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>Sentinel Client</display-name>
+
+	<servlet>
+		<servlet-name>controller</servlet-name>
+		<servlet-class>opl.sentinel.servlet.Controller</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>initialization</servlet-name>
+		<servlet-class>opl.sentinel.servlet.Initialization</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>controller</servlet-name>
+		<url-pattern>/controller</url-pattern>
+	</servlet-mapping>
+	
+		<servlet-mapping>
+		<servlet-name>initialization</servlet-name>
+		<url-pattern>/initialization</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>supervision.jsp</welcome-file>
+	</welcome-file-list>
+
+</web-app>

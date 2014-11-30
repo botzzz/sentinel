@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:this="http:///businessSample/src/main/resources/xsd/facture.xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http:///xml/message"
+	xmlns:client="http://xml.message">
+	<xsd:complexType name="client">
+		<xsd:sequence>
+			<xsd:element type="xsd:string" name="nom" />
+			<xsd:element type="xsd:string" name="prenom" />
+			<xsd:element type="xsd:string" name="adresse" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>
