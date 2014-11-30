@@ -39,7 +39,7 @@ public class SentinelContext implements Serializable {
 	@Column(name = "SC_NAME")
 	private String name;
 
-	@Column(name = "SC_MESSAGE_ORIGINE")
+	@Column(name = "SC_MESSAGE_ORIGINE", columnDefinition = "mediumtext")
 	private String messageOrigine;
 
 	@Column(name = "SC_SOURCE")

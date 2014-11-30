@@ -4,6 +4,7 @@
 package sentinel;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 
 import sentinel.context.FlowType;
 import sentinel.context.SentinelContext;
@@ -18,6 +19,9 @@ import utils.Util;
  */
 public class AbstractSentinel implements ISentinel {
 
+	private static final Logger logger = Logger
+			.getLogger(AbstractSentinel.class);
+
 	private SentinelContext context;
 
 	/*
@@ -28,6 +32,7 @@ public class AbstractSentinel implements ISentinel {
 	 */
 	public void init(String name, String xmlBusinessContent, String source,
 			String target, FlowType type) {
+		logger.debug("Sentinel context initialization");
 		this.context = new SentinelContext();
 		context.setName(name);
 		context.setMessageOrigine(xmlBusinessContent);
@@ -43,6 +48,8 @@ public class AbstractSentinel implements ISentinel {
 	 * @see sentinel.ISentinel#error(java.lang.String, java.lang.Throwable)
 	 */
 	public void error(String errorMessage, Throwable e) {
+		logger.debug("setting error");
+
 		if (this.context == null) {
 			this.context = new SentinelContext();
 			context.setName(Util.generateUUID());
@@ -60,6 +67,8 @@ public class AbstractSentinel implements ISentinel {
 	 * @see sentinel.ISentinel#logContext()
 	 */
 	public void logContext() {
+		logger.debug("logging context");
+
 		SentinelContextDao sentinelDAO = new SentinelContextDaoImpl();
 		sentinelDAO.persist(context);
 	}
