@@ -32,40 +32,44 @@ public class SentinelContext implements Serializable {
 	private static final long serialVersionUID = -7214441331500707320L;
 
 	@Id
-	@Column(name="SC_ID")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "SC_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
-	@Column(name="SC_NAME")
+
+	@Column(name = "SC_NAME")
 	private String name;
-	
-	@Column(name="SC_MESSAGE_ORIGINE")
+
+	@Column(name = "SC_MESSAGE_ORIGINE")
 	private String messageOrigine;
-	
-	@Column(name="SC_SOURCE")
+
+	@Column(name = "SC_SOURCE")
 	private String source;
-	
-	@Column(name="SC_DESTINATION")
+
+	@Column(name = "SC_DESTINATION")
 	private String destination;
 
-	@Column(name="SC_LOGGED_DATE")
+	@Column(name = "SC_LOGGED_DATE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date loggedDate;
 
-	@Column(name="SC_ERROR_DATE")
+	@Column(name = "SC_ERROR_DATE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date errorDate;
 
-	@Column(name="SC_ERROR_MESSAGE")
+	@Column(name = "SC_ERROR_MESSAGE")
 	private String errorMessage;
 
-	@Column(name="SC_STACKTRACE", columnDefinition = "mediumtext")
+	@Column(name = "SC_STACKTRACE", columnDefinition = "mediumtext")
 	private String stackTrace;
-	
-	@Column(name="SC_STATUS")
+
+	@Column(name = "SC_STATUS")
 	@Enumerated(EnumType.STRING)
 	private StatusType status;
-	
+
+	@Column(name = "SC_FLOW_TYPE")
+	@Enumerated(EnumType.STRING)
+	private FlowType flowType;
+
 	/**
 	 * @return the id
 	 */
@@ -140,7 +144,7 @@ public class SentinelContext implements Serializable {
 	public void setStackTrace(String stackTrace) {
 		this.stackTrace = stackTrace;
 	}
-	
+
 	/**
 	 * @return the status
 	 */
@@ -164,7 +168,8 @@ public class SentinelContext implements Serializable {
 	}
 
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -178,17 +183,17 @@ public class SentinelContext implements Serializable {
 	}
 
 	/**
-	 * @param messageOrigine the messageOrigine to set
+	 * @param messageOrigine
+	 *            the messageOrigine to set
 	 */
 	public void setMessageOrigine(String messageOrigine) {
 		this.messageOrigine = messageOrigine;
 	}
-	
-	
+
 	@PrePersist
-    protected void onCreate() {
+	protected void onCreate() {
 		loggedDate = new Date();
-    }
+	}
 
 	/**
 	 * @return the source
@@ -198,7 +203,8 @@ public class SentinelContext implements Serializable {
 	}
 
 	/**
-	 * @param source the source to set
+	 * @param source
+	 *            the source to set
 	 */
 	public void setSource(String source) {
 		this.source = source;
@@ -212,10 +218,26 @@ public class SentinelContext implements Serializable {
 	}
 
 	/**
-	 * @param destination the destination to set
+	 * @param destination
+	 *            the destination to set
 	 */
 	public void setDestination(String destination) {
 		this.destination = destination;
+	}
+
+	/**
+	 * @return the flowType
+	 */
+	public FlowType getFlowType() {
+		return flowType;
+	}
+
+	/**
+	 * @param flowType
+	 *            the flowType to set
+	 */
+	public void setFlowType(FlowType flowType) {
+		this.flowType = flowType;
 	}
 
 }

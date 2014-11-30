@@ -52,6 +52,8 @@ public class SentinelExecutionContext extends AbstractSentinelExcecutionContext 
 	@Enumerated(EnumType.STRING)
 	private StatusType status;
 
+	private FlowType flowType;
+
 	/**
 	 * @return the id
 	 */
@@ -170,6 +172,21 @@ public class SentinelExecutionContext extends AbstractSentinelExcecutionContext 
 	 */
 	public void setMessageOrigine(String messageOrigine) {
 		this.messageOrigine = messageOrigine;
+	}
+
+	/**
+	 * @return the flowType
+	 */
+	public FlowType getFlowType() {
+		return flowType;
+	}
+
+	/**
+	 * @param flowType
+	 *            the flowType to set
+	 */
+	public void setFlowType(FlowType flowType) {
+		this.flowType = flowType;
 	}
 
 	@PrePersist
