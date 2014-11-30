@@ -3,11 +3,9 @@ package scenario.applications;
 import java.util.Properties;
 
 import javax.jms.Destination;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
@@ -30,48 +28,35 @@ public abstract class ApplicationB extends Thread implements IApplication {
 	 */
 	public void run() {
 		logger.debug("Application B is now running");
-
-		Properties jndiProperties = new Properties();
+		String textReceived = "";
 		try {
+			Properties jndiProperties = new Properties();
+
 			jndiProperties.load(SampleProducer.class.getClassLoader()
 					.getResourceAsStream("jms/jms.properties"));
-		} catch (Exception e) {
 
+			InitialContext context = null;
+
+			context = new InitialContext(jndiProperties);
+
+			Destination topic = null;
+
+			topic = (Destination) context.lookup("businessSampleTopic");
+
+			SampleConsumer consumer = new SampleConsumer((Destination) topic);
+			logger.debug("B is waiting for a message...");
+
+			Message received = consumer.consume();
+
+			ExceptionListManager.LIST.next();
+
+			TextMessage receivedTextMessage = (TextMessage) received;
+
+			textReceived = receivedTextMessage.getText();
+		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		}
-		InitialContext context = null;
-		try {
-			context = new InitialContext(jndiProperties);
-		} catch (NamingException e) {
-			logger.error("an error occurred", e);
-		}
-		Destination topic = null;
-		try {
-			topic = (Destination) context.lookup("businessSampleTopic");
-		} catch (NamingException e) {
-			logger.error("an error occurred", e);
-		}
-
-		SampleConsumer consumer = new SampleConsumer((Destination) topic);
-		logger.debug("B is waiting for a message...");
-
-		Message received = consumer.consume();
-
-		try {
-			ExceptionListManager.LIST.next();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		TextMessage receivedTextMessage = (TextMessage) received;
-		String text = "";
-		try {
-			text = receivedTextMessage.getText();
-		} catch (JMSException e) {
-			logger.error("an error occurred", e);
-		}
-		logger.debug("B received : \n" + text);
+		logger.debug("B received : \n" + textReceived);
 	}
 
 }
