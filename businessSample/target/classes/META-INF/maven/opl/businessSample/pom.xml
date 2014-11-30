@@ -58,6 +58,13 @@
 	</repositories>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>opl</groupId>
+			<artifactId>sentinel</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<packaging>jar</packaging>
+		</dependency>
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>jms</artifactId>
