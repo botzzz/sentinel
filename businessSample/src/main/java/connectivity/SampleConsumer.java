@@ -42,6 +42,10 @@ public class SampleConsumer extends AbstractJMSSample {
 
 	}
 
+	/**
+	 * @param destination
+	 *            to consume from
+	 */
 	public SampleConsumer(Destination destination) {
 		ConnectionFactory cf = null;
 
@@ -73,13 +77,13 @@ public class SampleConsumer extends AbstractJMSSample {
 	}
 
 	/**
-	 * receive a message
+	 * receive a messages
 	 *
 	 * @param time
 	 *            to wait for the message
 	 * @return the received message
 	 */
-	public Message receive(Long timeout) {
+	public Message consume(Long timeout) {
 		this.jmsTemplate.setReceiveTimeout(timeout);
 		Message received = this.jmsTemplate.receive();
 		this.jmsTemplate

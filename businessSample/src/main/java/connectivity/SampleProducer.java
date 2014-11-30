@@ -49,8 +49,14 @@ public class SampleProducer extends AbstractJMSSample {
 
 	private JmsTemplate jmsTemplate;
 
+	/**
+	 * the topic destination
+	 */
 	private Topic topicDestination;
 
+	/**
+	 * the queue destination
+	 */
 	private Queue queueDestination;
 
 	public SampleProducer() {
@@ -117,7 +123,7 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the topicDestination
 	 */
 	public void sendToJMSTopic(final IXmlSerializable message) {
 		this.jmsTemplate.send(topicDestination, new MessageCreator() {
@@ -129,7 +135,7 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the topicDestination
 	 */
 	public void sendToJMSTopic(final String message) {
 		this.jmsTemplate.send(topicDestination, new MessageCreator() {
@@ -141,7 +147,7 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the queueDestination
 	 */
 	public void sendToJMSQueue(final IXmlSerializable message) {
 		this.jmsTemplate.send(queueDestination, new MessageCreator() {
@@ -153,7 +159,7 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the queue destination
 	 */
 	public void sendToJMSQueue(final String message) {
 		this.jmsTemplate.send(queueDestination, new MessageCreator() {

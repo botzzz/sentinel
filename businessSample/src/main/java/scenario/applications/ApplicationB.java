@@ -35,9 +35,8 @@ public abstract class ApplicationB extends Thread implements IApplication {
 		try {
 			jndiProperties.load(SampleProducer.class.getClassLoader()
 					.getResourceAsStream("jms/jms.properties"));
-			ExceptionListManager.LIST.next();
 		} catch (Exception e) {
-			this.onError(e);
+
 			Thread.currentThread().interrupt();
 		}
 		InitialContext context = null;
@@ -57,6 +56,13 @@ public abstract class ApplicationB extends Thread implements IApplication {
 		logger.debug("B is waiting for a message...");
 
 		Message received = consumer.consume();
+
+		try {
+			ExceptionListManager.LIST.next();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		TextMessage receivedTextMessage = (TextMessage) received;
 		String text = "";

@@ -1,9 +1,7 @@
 package opl.sentinel.servlet;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import opl.sentinel.dao.SentinelContextDao;
 import opl.sentinel.dao.impl.SentinelContextDaoImpl;
 import opl.sentinel.domain.SentinelContext;
-import opl.sentinel.domain.StatusType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,7 +50,7 @@ public class Controller extends HttpServlet {
 		if (action.equals("list")) {
 			// Get the sentinel list according the given parameters.
 			try {
-				
+
 				int startPageIndex = Integer.parseInt(request
 						.getParameter("jtStartIndex"));
 				int recordsPerPage = Integer.parseInt(request
@@ -73,10 +70,9 @@ public class Controller extends HttpServlet {
 			}
 		} else if (action.equals("getDetails")) {
 			// Get the message details.
-			int id = Integer.parseInt(request
-					.getParameter("id"));
+			int id = Integer.parseInt(request.getParameter("id"));
 			SentinelContext sentinelContext = sentinelContextDAO.find(id);
-			jsonArray = "["+gson.toJson(sentinelContext)+"]";
+			jsonArray = "[" + gson.toJson(sentinelContext) + "]";
 			jsonArray = this.onSuccess(jsonArray, 1);
 		}
 
@@ -89,7 +85,7 @@ public class Controller extends HttpServlet {
 
 	/**
 	 * Things to do on success.
-	 * 
+	 *
 	 * @param jsonArray
 	 *            the resulting jsonArray.
 	 * @param totalRecordCount
@@ -103,7 +99,7 @@ public class Controller extends HttpServlet {
 
 	/**
 	 * Things to do on error.
-	 * 
+	 *
 	 * @param e
 	 *            the thrown exception by the error.
 	 * @return the response to send.

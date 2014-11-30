@@ -15,10 +15,19 @@ import org.springframework.jms.core.JmsTemplate;
  */
 public class AbstractJMSSample {
 
+	/**
+	 * the JNDI context
+	 */
 	protected static Context jndiContext;
 
+	/**
+	 * Properties corresponding to the JNDI context
+	 */
 	protected static Properties jndiProperties;
 
+	/**
+	 * the JMSTemplate used to produce and consume messages
+	 */
 	protected JmsTemplate jmsTemplate;
 
 	/**

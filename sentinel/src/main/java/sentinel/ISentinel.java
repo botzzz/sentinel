@@ -3,16 +3,39 @@
  */
 package sentinel;
 
+import sentinel.context.FlowType;
+
 /**
  * @author buissartt
  *
  */
 public interface ISentinel {
 
-	public void init(String xmlBusinessContent);
+	/**
+	 * initialize the current context
+	 *
+	 * @param name
+	 * @param xmlBusinessContent
+	 * @param source
+	 * @param target
+	 * @param flowType
+	 */
+	public void init(String name, String xmlBusinessContent, String source,
+			String target, FlowType flowType);
 
-	public void error(String errorMessage);
+	/**
+	 * initialize the error
+	 *
+	 * @param errorMessage
+	 *            the error message
+	 * @param e
+	 *            the throwable object
+	 */
+	public void error(String errorMessage, Throwable e);
 
+	/**
+	 * persist the current context
+	 */
 	public void logContext();
 
 }

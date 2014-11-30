@@ -3,6 +3,8 @@
  */
 package scenario.applications;
 
+import xml.IXmlSerializable;
+
 /**
  * @author buissartt
  *
@@ -16,8 +18,9 @@ public interface IApplication {
 
 	/**
 	 * Things to do on error.
+	 *
 	 * @param e
 	 */
-	void onError(Exception e);
+	void onError(IXmlSerializable messageOriginal, Exception e);
 
 }

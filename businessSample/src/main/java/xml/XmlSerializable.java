@@ -6,5 +6,4 @@ package xml;
  */
 public class XmlSerializable extends AbstractXmlSerializable {
 
-
 }

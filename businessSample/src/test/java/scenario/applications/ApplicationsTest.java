@@ -6,6 +6,9 @@ package scenario.applications;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import sentinel.Sentinel;
+import xml.IXmlSerializable;
+
 /**
  * @author buissartt
  *
@@ -17,34 +20,41 @@ public class ApplicationsTest {
 
 	@Test
 	public void testAllApplications() {
-		logger.debug("JPDIPOZJDPZO");
 		ApplicationA appA = new ApplicationA() {
-			public void onError(Exception e) {
-				logger.error("an error occurred classname" + e.getStackTrace());
-				logger.error("an error occurred", e);
+			public void onError(IXmlSerializable messageOriginal, Exception e) {
+				Sentinel sentinel = new Sentinel();
+
+				// sentinel.init(Util.generateUUID(),
+				// messageOriginal.convertToString(), "Application A",
+				// null, FlowType.PRODUCED);
+				sentinel.error("error during Application A", e);
 			}
 		};
 		ApplicationB appB = new ApplicationB() {
-			public void onError(Exception e) {
-				logger.error("an error occurred classname" + e.getStackTrace());
-				logger.error("an error occurred", e);
+
+			public void onError(IXmlSerializable messageOriginal, Exception e) {
+				// TODO Auto-generated method stub
+
 			}
 
 		};
 		ApplicationC appC = new ApplicationC() {
-			public void onError(Exception e) {
-				logger.error("an error occurred classname" + e.getStackTrace());
-				logger.error("an error occurred", e);
+
+			public void onError(IXmlSerializable messageOriginal, Exception e) {
+				// TODO Auto-generated method stub
+
 			}
+
 		};
-		;
+
 		ApplicationD appD = new ApplicationD() {
-			public void onError(Exception e) {
-				logger.error("an error occurred classname" + e.getStackTrace());
-				logger.error("an error occurred", e);
+
+			public void onError(IXmlSerializable messageOriginal, Exception e) {
+				// TODO Auto-generated method stub
+
 			}
+
 		};
-		;
 
 		// appA.run();
 		appB.start();
