@@ -41,5 +41,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+businessSample/target
+sentinel/target
+sentinelClient/target
+
 *.class
 *.tmp
