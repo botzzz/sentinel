@@ -41,6 +41,9 @@ public class SentinelContext implements Serializable {
 
 	@Column(name = "SC_MESSAGE_ORIGINE")
 	private String messageOrigine;
+	
+	@Column(name = "SC_MESSAGE_ORIGINE_ID")
+	private int messageOrigineId;
 
 	@Column(name = "SC_SOURCE")
 	private String source;
@@ -238,6 +241,20 @@ public class SentinelContext implements Serializable {
 	 */
 	public void setFlowType(FlowType flowType) {
 		this.flowType = flowType;
+	}
+
+	/**
+	 * @return the messageOrigineId
+	 */
+	public int getMessageOrigineId() {
+		return messageOrigineId;
+	}
+
+	/**
+	 * @param messageOrigineId the messageOrigineId to set
+	 */
+	public void setMessageOrigineId(int messageOrigineId) {
+		this.messageOrigineId = messageOrigineId;
 	}
 
 }
