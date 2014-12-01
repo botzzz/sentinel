@@ -8,7 +8,9 @@ import javax.jms.TextMessage;
 import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
+import org.hibernate.engine.transaction.synchronization.spi.ExceptionMapper;
 
+import scenario.ExceptionListManager;
 import sentinel.Sentinel;
 import sentinel.context.FlowType;
 import utils.Constants;
@@ -55,6 +57,7 @@ public abstract class ApplicationB extends Thread implements IApplication {
 			TextMessage receivedTextMessage = (TextMessage) received;
 			textReceived = receivedTextMessage.getText();
 
+			
 			received.getStringProperty(Constants.CONTEXT_ID);
 			Sentinel sentinel = new Sentinel();
 			sentinel.init("Application B consume", textReceived,
@@ -62,8 +65,11 @@ public abstract class ApplicationB extends Thread implements IApplication {
 					"Application B", FlowType.CONSUMED,
 					received.getIntProperty(Constants.CONTEXT_ID));
 
+			ExceptionListManager.LIST.next();
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			Sentinel sentinel = new Sentinel();
+			sentinel.error(e.getMessage(), e);
 			Thread.currentThread().interrupt();
 		}
 		logger.debug("B received : \n" + textReceived);

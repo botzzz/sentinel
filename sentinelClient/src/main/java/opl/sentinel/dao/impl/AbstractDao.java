@@ -1,4 +1,4 @@
-package sentinel.context.dao;
+package opl.sentinel.dao.impl;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import opl.sentinel.dao.IAbstractDao;
 
 /**
  * Abstract data access object.
@@ -53,16 +55,6 @@ public abstract class AbstractDao<T> implements IAbstractDao<T> {
 		EntityManager entityManager = getEntityManager();
 		entityManager.getTransaction().begin();
 		entityManager.persist(entity);
-		entityManager.getTransaction().commit();
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public void merge(T entity) {
-		EntityManager entityManager = getEntityManager();
-		entityManager.getTransaction().begin();
-		entityManager.merge(entity);
 		entityManager.getTransaction().commit();
 	}
 

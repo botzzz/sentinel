@@ -20,6 +20,7 @@ public class ApplicationsTest {
 
 	@Test
 	public void testAllApplications() {
+		
 		ApplicationA appA = new ApplicationA() {
 			public void onError(IXmlSerializable messageOriginal, Exception e) {
 				Sentinel sentinel = new Sentinel();

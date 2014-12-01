@@ -76,7 +76,11 @@ public class AbstractSentinel implements ISentinel {
 		logger.debug("logging context");
 
 		SentinelContextDao sentinelDAO = new SentinelContextDaoImpl();
-		sentinelDAO.persist(context);
+		if(context.getId() == null){
+			sentinelDAO.persist(context);
+		} else {
+			sentinelDAO.merge(context);
+		}
 	}
 
 }

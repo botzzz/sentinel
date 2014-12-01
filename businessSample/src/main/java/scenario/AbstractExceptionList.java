@@ -29,8 +29,6 @@ public abstract class AbstractExceptionList {
 	 * Throw the next exception of the list.
 	 */
 	public void next() throws Exception {
-		throw scenarioList.get((currentIndex++ % (scenarioList.size() - 1)));
-
 		Exception e = scenarioList
 				.get((currentIndex++ % (scenarioList.size() - 1)));
 		if (e != null)
@@ -48,9 +46,13 @@ public abstract class AbstractExceptionList {
 	public void addException(Class<? extends Exception> exception, int n) {
 		try {
 			for (int i = 0; i < n; i++) {
-				Constructor<?> ctor = exception.getConstructor();
-				Object object = ctor.newInstance();
-				this.scenarioList.add((Exception) object);
+				if (exception != null) {
+					Constructor<?> ctor = exception.getConstructor();
+					Object object = ctor.newInstance();
+					this.scenarioList.add((Exception) object);
+				} else {
+					this.scenarioList.add(null);
+				}
 			}
 		} catch (Exception e) {
 			// NOTHING TO DO

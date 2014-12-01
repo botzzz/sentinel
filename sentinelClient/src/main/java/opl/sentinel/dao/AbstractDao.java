@@ -50,21 +50,23 @@ public abstract class AbstractDao<T> implements IAbstractDao<T> {
 	 * {@inheritDoc}
 	 */
 	public void persist(T entity) {
-		getEntityManager().getTransaction().begin();
-		getEntityManager().persist(entity);
-		getEntityManager().getTransaction().commit();
+		EntityManager entityManager = getEntityManager();
+		entityManager.getTransaction().begin();
+		entityManager.persist(entity);
+		entityManager.getTransaction().commit();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void remove(Object entityId) {
-		getEntityManager().getTransaction().begin();
+		EntityManager entityManager = getEntityManager();
+		entityManager.getTransaction().begin();
 		T entity = find(entityId);
 		if (entity != null) {
 			getEntityManager().remove(entity);
 		}
-		getEntityManager().getTransaction().commit();
+		entityManager.getTransaction().commit();
 	}
 
 	/**
@@ -78,20 +80,22 @@ public abstract class AbstractDao<T> implements IAbstractDao<T> {
 	 * {@inheritDoc}
 	 */
 	public List<T> findAll() {
-		CriteriaQuery<T> cq = getEntityManager().getCriteriaBuilder()
+		EntityManager entityManager = getEntityManager();
+		CriteriaQuery<T> cq = entityManager.getCriteriaBuilder()
 				.createQuery(entityClass);
 		cq.select(cq.from(entityClass));
-		return getEntityManager().createQuery(cq).getResultList();
+		return entityManager.createQuery(cq).getResultList();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<T> findOffsetLimit(int offset, int limit) {
-		CriteriaQuery<T> cq = getEntityManager().getCriteriaBuilder()
+		EntityManager entityManager = getEntityManager();
+		CriteriaQuery<T> cq = entityManager.getCriteriaBuilder()
 				.createQuery(entityClass);
 		cq.select(cq.from(entityClass));
-		TypedQuery<T> typedQuery = getEntityManager().createQuery(cq)
+		TypedQuery<T> typedQuery = entityManager.createQuery(cq)
 				.setFirstResult(offset).setMaxResults(limit);
 		return typedQuery.getResultList();
 	}
@@ -100,10 +104,11 @@ public abstract class AbstractDao<T> implements IAbstractDao<T> {
 	 * {@inheritDoc}
 	 */
 	public int count() {
-		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		EntityManager entityManager = getEntityManager();
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 		Root<T> root = cq.from(entityClass);
 		cq.select(cb.count(root));
-		return getEntityManager().createQuery(cq).getSingleResult().intValue();
+		return entityManager.createQuery(cq).getSingleResult().intValue();
 	}
 }

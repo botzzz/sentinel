@@ -95,10 +95,10 @@
 	                            					title: 'StackTrace',
 	                            					width: '30%',
 	                            					display: function (data) {
-	                            						var stackTrace = consumersData.record.stackTrace;
+	                            						var stackTrace = data.record.stackTrace;
 	                            						if(stackTrace){
 		                            					 	setTimeout(function() { SyntaxHighlighter.highlight(); }, 2000);
-		                            						return '<pre id="codeContent" class="brush:java">' + consumersData.record.stackTrace + "</pre>";
+		                            						return '<pre id="codeContent" class="brush:java">' + data.record.stackTrace + "</pre>";
 	                            						}
 	                            						return 'NO ERROR';
 	                            		           }
