@@ -24,6 +24,10 @@ public class AbstractSentinel implements ISentinel {
 
 	private SentinelContext context;
 
+	public SentinelContext getContext() {
+		return context;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -31,13 +35,15 @@ public class AbstractSentinel implements ISentinel {
 	 * java.lang.String, java.lang.String, sentinel.context.FlowType)
 	 */
 	public void init(String name, String xmlBusinessContent, String source,
-			String target, FlowType type) {
+			String target, FlowType type, Integer messageOrigineId) {
 		logger.debug("Sentinel context initialization");
 		this.context = new SentinelContext();
 		context.setName(name);
 		context.setMessageOrigine(xmlBusinessContent);
 		context.setFlowType(type);
 		context.setStatus(StatusType.SUCCESS);
+		if (messageOrigineId != null)
+			context.setMessageOrigineId(messageOrigineId);
 
 		this.logContext();
 	}

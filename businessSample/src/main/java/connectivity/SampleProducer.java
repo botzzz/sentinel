@@ -11,6 +11,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.jms.Topic;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -135,6 +136,26 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
+	 * @param attachedContextId
+	 *            the id to set in the header
+	 */
+	public void sendToJMSTopic(final IXmlSerializable message,
+			final Integer attachedContextId, final String applicationSource) {
+		this.jmsTemplate.send(topicDestination, new MessageCreator() {
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage messageToSend = session.createTextMessage(message
+						.convertToString());
+				messageToSend.setIntProperty(Constants.CONTEXT_ID,
+						attachedContextId);
+				messageToSend.setStringProperty(Constants.APPLICATION_SOURCE,
+						applicationSource);
+				return messageToSend;
+			}
+		});
+	}
+
+	/**
+	 * @param message
 	 *            to send to the topicDestination
 	 */
 	public void sendToJMSTopic(final String message) {
@@ -153,6 +174,21 @@ public class SampleProducer extends AbstractJMSSample {
 		this.jmsTemplate.send(queueDestination, new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
 				return session.createTextMessage(message.convertToString());
+			}
+		});
+	}
+
+	public void sendToJMSQueue(final IXmlSerializable message,
+			final int attachedContextId, final String applicationSource) {
+		this.jmsTemplate.send(queueDestination, new MessageCreator() {
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage messageToSend = session.createTextMessage(message
+						.convertToString());
+				messageToSend.setIntProperty(Constants.CONTEXT_ID,
+						attachedContextId);
+				messageToSend.setStringProperty(Constants.APPLICATION_SOURCE,
+						applicationSource);
+				return messageToSend;
 			}
 		});
 	}

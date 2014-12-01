@@ -9,7 +9,9 @@ import javax.naming.InitialContext;
 
 import org.apache.log4j.Logger;
 
-import scenario.ExceptionListManager;
+import sentinel.Sentinel;
+import sentinel.context.FlowType;
+import utils.Constants;
 import connectivity.SampleConsumer;
 import connectivity.SampleProducer;
 
@@ -48,12 +50,20 @@ public abstract class ApplicationB extends Thread implements IApplication {
 
 			Message received = consumer.consume();
 
-			ExceptionListManager.LIST.next();
+			// ExceptionListManager.LIST.next();
 
 			TextMessage receivedTextMessage = (TextMessage) received;
-
 			textReceived = receivedTextMessage.getText();
+
+			received.getStringProperty(Constants.CONTEXT_ID);
+			Sentinel sentinel = new Sentinel();
+			sentinel.init("Application B consume", textReceived,
+					received.getStringProperty(Constants.APPLICATION_SOURCE),
+					"Application B", FlowType.CONSUMED,
+					received.getIntProperty(Constants.CONTEXT_ID));
+
 		} catch (Exception e) {
+			e.printStackTrace();
 			Thread.currentThread().interrupt();
 		}
 		logger.debug("B received : \n" + textReceived);

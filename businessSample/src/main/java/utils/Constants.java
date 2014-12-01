@@ -25,4 +25,14 @@ public class Constants {
 	 */
 	public static final String JNDI_QUEUE = "java.naming.lookup.queue";
 
+	/**
+	 * CONTEXT_ID
+	 */
+	public static final String CONTEXT_ID = "attachedContextId";
+
+	/**
+	 * APPLICATION_SOURCE
+	 */
+	public static final String APPLICATION_SOURCE = "applicationSource";
+
 }

@@ -26,10 +26,11 @@ import javax.persistence.TemporalType;
 @Table(name = "SENTINEL_CONTEXT")
 public class SentinelContext implements Serializable {
 
+
 	/**
-	 * serialVersionUID
+	 *
 	 */
-	private static final long serialVersionUID = 3479841400563625602L;
+	private static final long serialVersionUID = 5619703689701182416L;
 
 	@Id
 	@Column(name = "SC_ID")
@@ -41,6 +42,9 @@ public class SentinelContext implements Serializable {
 
 	@Column(name = "SC_MESSAGE_ORIGINE", columnDefinition = "mediumtext")
 	private String messageOrigine;
+
+	@Column(name = "SC_MESSAGE_ORIGINE_ID")
+	private int messageOrigineId;
 
 	@Column(name = "SC_SOURCE")
 	private String source;
@@ -238,6 +242,21 @@ public class SentinelContext implements Serializable {
 	 */
 	public void setFlowType(FlowType flowType) {
 		this.flowType = flowType;
+	}
+
+	/**
+	 * @return the messageOrigineId
+	 */
+	public int getMessageOrigineId() {
+		return messageOrigineId;
+	}
+
+	/**
+	 * @param messageOrigineId
+	 *            the messageOrigineId to set
+	 */
+	public void setMessageOrigineId(int messageOrigineId) {
+		this.messageOrigineId = messageOrigineId;
 	}
 
 }

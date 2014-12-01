@@ -19,9 +19,10 @@ public interface ISentinel {
 	 * @param source
 	 * @param target
 	 * @param flowType
+	 * @param messageOrigineId
 	 */
 	public void init(String name, String xmlBusinessContent, String source,
-			String target, FlowType flowType);
+			String target, FlowType flowType, Integer messageOrigineId);
 
 	/**
 	 * initialize the error
