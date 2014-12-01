@@ -7,6 +7,7 @@ import javax.persistence.TypedQuery;
 
 import opl.sentinel.dao.AbstractDao;
 import opl.sentinel.dao.SentinelContextDao;
+import opl.sentinel.domain.FlowType;
 import opl.sentinel.domain.SentinelContext;
 
 /**
@@ -28,25 +29,45 @@ public class SentinelContextDaoImpl extends AbstractDao<SentinelContext> impleme
 	 */
 	public int countProducer() {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("SLECT count(*) FROM SentinelContext as sc WHERE sc.flowType = :flowType");
+		stringBuilder.append("SELECT count(*) FROM SentinelContext as sc ");
+		stringBuilder.append("WHERE sc.flowType = :flowType ");
 		
 		Query query = getEntityManager().createQuery(stringBuilder.toString());
-		query.setParameter("flowType", "PRODUCED");
+		query.setParameter("flowType", FlowType.PRODUCED);
 		
-		return (Integer) query.getSingleResult();
+		Long count = (Long) query.getSingleResult();
+		
+		return count.intValue();
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	public List<SentinelContext> getProducersOffsetLimit(int offset, int limit){
-		StringBuilder stringBuilber = new StringBuilder();
-		stringBuilber.append("FROM SentinelContext as sc WHERE sc.flowType = :flowType");
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("FROM SentinelContext as sc ");
+		stringBuilder.append("WHERE sc.flowType = :flowType");
 		
-		TypedQuery<SentinelContext> query = getEntityManager().createQuery(stringBuilber.toString(), SentinelContext.class);
+		TypedQuery<SentinelContext> query = getEntityManager().createQuery(stringBuilder.toString(), SentinelContext.class);
+		query.setParameter("flowType", FlowType.PRODUCED);
+
 		query.setMaxResults(limit);
 		query.setFirstResult(offset);
+
+		return query.getResultList();
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<SentinelContext> getConsumerByMessageOrigineId(int messageOrigineId){
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("FROM SentinelContext as sc ");
+		stringBuilder.append("WHERE sc.messageOrigineId = :messageOrigineId");
 		
+		TypedQuery<SentinelContext> query = getEntityManager().createQuery(stringBuilder.toString(), SentinelContext.class);
+		query.setParameter("messageOrigineId", messageOrigineId);
+
 		return query.getResultList();
 	}
 

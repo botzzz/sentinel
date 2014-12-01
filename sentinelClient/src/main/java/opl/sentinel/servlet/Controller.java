@@ -60,9 +60,9 @@ public class Controller extends HttpServlet {
 						.getParameter("jtPageSize"));
 
 				List<SentinelContext> sentinelContextList = sentinelContextDAO
-						.findOffsetLimit(startPageIndex, recordsPerPage);
+						.getProducersOffsetLimit(startPageIndex, recordsPerPage);
 
-				int sentinelCount = sentinelContextDAO.count();
+				int sentinelCount = sentinelContextDAO.countProducer();
 
 				jsonArray = gson.toJson(sentinelContextList);
 
@@ -71,6 +71,13 @@ public class Controller extends HttpServlet {
 			} catch (Exception ex) {
 				error = this.onError(ex);
 			}
+		} else if (action.equals("getConsumers")){
+			int id = Integer.parseInt(request
+					.getParameter("id"));
+			List<SentinelContext> consumerList = sentinelContextDAO.getConsumerByMessageOrigineId(id);
+			jsonArray = gson.toJson(consumerList);
+			jsonArray = this.onSuccess(jsonArray, 1);
+			
 		} else if (action.equals("getDetails")) {
 			// Get the message details.
 			int id = Integer.parseInt(request

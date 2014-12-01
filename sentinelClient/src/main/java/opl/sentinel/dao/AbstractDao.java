@@ -3,6 +3,7 @@ package opl.sentinel.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,9 +20,9 @@ import javax.persistence.criteria.Root;
 public abstract class AbstractDao<T> implements IAbstractDao<T> {
 
 	/**
-	 * Entity manager.
+	 * Entity manager factory.
 	 */
-	private EntityManager em;
+	private EntityManagerFactory emfactory;
 
 	/**
 	 * The entity class.
@@ -35,15 +36,14 @@ public abstract class AbstractDao<T> implements IAbstractDao<T> {
 	 */
 	public AbstractDao(Class<T> entityClass) {
 		this.entityClass = entityClass;
-		this.em = Persistence.createEntityManagerFactory("sentinelPU")
-				.createEntityManager();
+		this.emfactory = Persistence.createEntityManagerFactory("sentinelPU");
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public EntityManager getEntityManager() {
-		return this.em;
+		return this.emfactory.createEntityManager();
 	}
 
 	/**

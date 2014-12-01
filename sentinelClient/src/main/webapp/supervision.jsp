@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#SentinelTableContainer').jtable({
-			title : 'Sentinel report list',
+			title : 'Producers',
 			paging : true, //Enable paging
 			actions : {
 				listAction : 'controller?action=list',
@@ -36,10 +36,6 @@
 					title : 'Source',
 					width : '10%'
 				},
-				destination : {
-					title : 'Destination',
-					width : '10%'
-				},
 				loggedDate : {
 					title : 'Date',
 					width : '10%'
@@ -55,12 +51,74 @@
 						}
 		           }
 				},
-				messageOrigine : {
+				consumers : {
+					title : "Consumers",
+					width : "5%",
+					display: function (consumersData) {
+						 var $img = $('<img src="images/plus.png" title="Watch consumers" />');
+						 $img.click(function () {
+							 $('#SentinelTableContainer').jtable('openChildTable',
+	                                    $img.closest('tr'),
+	                                    {
+											 title: 'Consumers',
+			                                 actions: {
+			                                     listAction: 'controller?action=getConsumers&id=' + consumersData.record.id
+			                                 },
+			                                 fields : {
+												id : {
+													key: true,
+													title : 'ID',
+													width : '5%',
+													list : true,
+													sort: true
+												},
+												name : {
+													title : 'Name',
+													width : '10%'
+												},
+												loggedDate : {
+													title : 'Date',
+													width : '10%'
+												},
+												status : {
+													title : 'Status',
+													width : '10%',
+													display: function (data) {
+														if(data.record.status == 'SUCCESS'){
+										                	return '<label style="color:white; background-color:#86c440; padding:2px; display:block; width:100px; margin:auto;">' + data.record.status+ '</label>';
+														} else {
+										                	return '<label style="color:white; background-color:#c44040; padding:2px; display:block; width:100px; margin:auto;">' + data.record.status+ '</label>';
+														}
+													}
+				           						},
+	                            				stackTrace : {
+	                            					title: 'StackTrace',
+	                            					width: '30%',
+	                            					display: function (data) {
+	                            						var stackTrace = consumersData.record.stackTrace;
+	                            						if(stackTrace){
+		                            					 	setTimeout(function() { SyntaxHighlighter.highlight(); }, 2000);
+		                            						return '<pre id="codeContent" class="brush:java">' + consumersData.record.stackTrace + "</pre>";
+	                            						}
+	                            						return 'NO ERROR';
+	                            		           }
+	                            				}
+											}
+										},
+										function (data) {
+	                                    	 data.childTable.jtable('load');
+	                                    }
+										);
+						 });
+						 return $img;
+					}
+				},
+				details : {
 					key: true,
 					title : 'Details',
 					width : '5%',
 					display: function (sentinelData) {
-                        var $img = $('<img src="images/envelope.png" title="Watch message" />');
+                        var $img = $('<img src="images/plus.png" title="Watch message" />');
                         $img.click(function () {
                             $('#SentinelTableContainer').jtable('openChildTable',
                                     $img.closest('tr'),
@@ -72,14 +130,22 @@
                             			fields : {
                             				messageOrigine : {
                             					title: 'Message',
-                            					width: '50%'
+                            					width: '50%',
+                            					display: function(data){
+                            					 	setTimeout(function() { SyntaxHighlighter.highlight(); }, 2000);
+                            						return '<pre id="codeContent" class="brush:java">' + data.record.messageOrigine + '</pre>';
+                            					}
                             				},
                             				stackTrace : {
                             					title: 'StackTrace',
                             					width: '50%',
                             					display: function (data) {
-                            					 	setTimeout(function() { SyntaxHighlighter.highlight(); }, 2000);
-                            						return '<pre id="codeContent" class="brush:java">' + sentinelData.record.stackTrace + "</pre>";
+                            						var stackTrace = sentinelData.record.stackTrace;
+                            						if(stackTrace){
+	                            					 	setTimeout(function() { SyntaxHighlighter.highlight(); }, 2000);
+	                            						return '<pre id="codeContent" class="brush:java">' + sentinelData.record.stackTrace + "</pre>";
+                            						}
+                            						return 'NO ERROR';
                             		           }
                             				}
                             			}

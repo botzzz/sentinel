@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import opl.sentinel.dao.SentinelContextDao;
 import opl.sentinel.dao.impl.SentinelContextDaoImpl;
+import opl.sentinel.domain.FlowType;
 import opl.sentinel.domain.SentinelContext;
 import opl.sentinel.domain.StatusType;
 
@@ -63,8 +64,19 @@ public class Initialization extends HttpServlet {
 	 * @param count number of entity to insert.
 	 */
 	private void insertEntityList(int count){
+		Random random = new Random();
 		for(int i = 0; i < count; i++){
-			this.sentinelContextDAO.persist(this.createEntity(String.valueOf(count)));
+			
+			// Create producer message
+			SentinelContext producer = this.createEntity(String.valueOf(i), null);
+			this.sentinelContextDAO.persist(producer);
+			
+			// Create consumer message
+			int consumerCount = random.nextInt(2);
+			for(int j = 0; j < consumerCount; j++){
+				SentinelContext consumer = this.createEntity(i + " " + j, producer.getId());
+				this.sentinelContextDAO.persist(consumer);
+			}
 		}
 	}
 	
@@ -72,7 +84,7 @@ public class Initialization extends HttpServlet {
 	 * Create the entity.
 	 * @return a create entity.
 	 */
-	private SentinelContext createEntity(String suffixe){
+	private SentinelContext createEntity(String suffixe, Integer messageOrigineId){
 		SentinelContext sentinelContext = new SentinelContext();
 		sentinelContext.setErrorDate(new Date());
 		sentinelContext.setErrorMessage("TEST : Message d'erreur"+suffixe);
@@ -81,6 +93,8 @@ public class Initialization extends HttpServlet {
 		sentinelContext.setName("TEST : NOM"+suffixe);
 		sentinelContext.setStatus(StatusType.values()[new Random().nextInt(StatusType.values().length)]);
 		sentinelContext.setStackTrace(ExceptionUtils.getStackTrace(new NullPointerException()));
+		sentinelContext.setMessageOrigineId(messageOrigineId);
+		sentinelContext.setFlowType(messageOrigineId == null ? FlowType.PRODUCED : FlowType.CONSUMED);
 		return sentinelContext;
 	}
 	

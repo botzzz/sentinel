@@ -493,3 +493,22 @@ div.jtable-busy-message {
   background-color: #c30000;
   background-position: 8px;
 }
+
+div.jtable-child-table-container > div.jtable-main-container > div.jtable-title {
+  background-color: #ff8000;
+  padding-left: 10px;
+}
+
+div.jtable-child-table-container > div.jtable-main-container > div.jtable-title div.jtable-toolbar span.jtable-toolbar-item {
+  background-color: #e9a236;
+  color: white;
+}
+
+div.jtable-child-table-container > div.jtable-main-container > div.jtable-title div.jtable-toolbar span.jtable-toolbar-item.jtable-toolbar-item-hover {
+  background-color: #e9a236;
+  padding-bottom: 6px;
+}
+
+div.jtable-child-table-container > div.jtable-main-container > table.jtable > thead {
+  background-color: #e9a236;
+}

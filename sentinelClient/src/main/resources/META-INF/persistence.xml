@@ -15,7 +15,7 @@
 			<property name="hibernate.format_sql" value="true" />
 		
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://fidelapp.cloudapp.net:8085/sentineldb"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://fidelapp.cloudapp.net:80/sentineldb"/>
             <property name="javax.persistence.jdbc.user" value="sentinel"/>
             <property name="javax.persistence.jdbc.password" value="sentinel"/>
 	

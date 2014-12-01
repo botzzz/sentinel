@@ -39,11 +39,11 @@ public class SentinelContext implements Serializable {
 	@Column(name = "SC_NAME")
 	private String name;
 
-	@Column(name = "SC_MESSAGE_ORIGINE")
+	@Column(name = "SC_MESSAGE_ORIGINE", columnDefinition = "mediumtext")
 	private String messageOrigine;
 	
 	@Column(name = "SC_MESSAGE_ORIGINE_ID")
-	private int messageOrigineId;
+	private Integer messageOrigineId;
 
 	@Column(name = "SC_SOURCE")
 	private String source;
@@ -246,14 +246,14 @@ public class SentinelContext implements Serializable {
 	/**
 	 * @return the messageOrigineId
 	 */
-	public int getMessageOrigineId() {
+	public Integer getMessageOrigineId() {
 		return messageOrigineId;
 	}
 
 	/**
 	 * @param messageOrigineId the messageOrigineId to set
 	 */
-	public void setMessageOrigineId(int messageOrigineId) {
+	public void setMessageOrigineId(Integer messageOrigineId) {
 		this.messageOrigineId = messageOrigineId;
 	}
 

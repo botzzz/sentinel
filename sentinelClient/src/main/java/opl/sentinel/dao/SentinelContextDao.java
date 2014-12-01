@@ -24,5 +24,12 @@ public interface SentinelContextDao extends IAbstractDao<SentinelContext> {
 	 * @return
 	 */
 	List<SentinelContext> getProducersOffsetLimit(int offset, int limit);
+
+	/**
+	 * Get the consumers for the specified message origine id.
+	 * @param messageOrigineId the message origine id.
+	 * @return the concerned consumers.
+	 */
+	List<SentinelContext> getConsumerByMessageOrigineId(int messageOrigineId);
 	
 }
