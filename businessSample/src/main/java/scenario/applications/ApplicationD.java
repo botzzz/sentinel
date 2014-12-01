@@ -6,15 +6,16 @@ package scenario.applications;
 import java.util.Properties;
 
 import javax.jms.Destination;
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
 
 import scenario.ExceptionListManager;
+import sentinel.Sentinel;
+import sentinel.context.FlowType;
+import utils.Constants;
 import connectivity.SampleConsumer;
 import connectivity.SampleProducer;
 
@@ -34,43 +35,38 @@ public abstract class ApplicationD extends Thread implements IApplication {
 	public void run() {
 		logger.debug("Application D is now running");
 
-		Properties jndiProperties = new Properties();
+		String textReceived = "";
+		Sentinel sentinel = new Sentinel();
 		try {
+			Properties jndiProperties = new Properties();
+
 			jndiProperties.load(SampleProducer.class.getClassLoader()
 					.getResourceAsStream("jms/jms.properties"));
 			ExceptionListManager.LIST.next();
-		} catch (Exception e) {
-			logger.error("an error occurred classname"
-					+ e.getStackTrace()[0].getClassName());
-			e.printStackTrace();
-		}
-		InitialContext context = null;
-		try {
+
+			InitialContext context = null;
 			context = new InitialContext(jndiProperties);
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Destination queue = null;
-		try {
+
+			Destination queue = null;
 			queue = (Destination) context.lookup("businessSampleQueue");
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		SampleConsumer consumer = new SampleConsumer(queue);
-		logger.debug("Application D is now waiting for a message...");
+			SampleConsumer consumer = new SampleConsumer(queue);
+			logger.debug("Application D is now waiting for a message...");
 
-		Message received = consumer.consume();
-		TextMessage receivedTextMessage = (TextMessage) received;
-		logger.debug("Application D received : \n" + receivedTextMessage);
+			Message received = consumer.consume();
+			TextMessage receivedTextMessage = (TextMessage) received;
+			logger.debug("Application D received : \n" + receivedTextMessage);
 
-		String textReceived = "";
-		try {
 			textReceived = receivedTextMessage.getText();
-		} catch (JMSException e) {
-			logger.error("an error occurred", e);
+			sentinel.init("Application D consume from queue", textReceived,
+					received.getStringProperty(Constants.APPLICATION_SOURCE),
+					"Application D", FlowType.CONSUMED,
+					received.getIntProperty(Constants.CONTEXT_ID));
+		} catch (Exception e) {
+			sentinel.error(
+					"Application D encountered an error during message consumption",
+					e);
+
 		}
 		logger.debug("D received :\n" + textReceived);
 	}
