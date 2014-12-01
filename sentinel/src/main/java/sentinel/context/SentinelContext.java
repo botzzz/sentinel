@@ -3,6 +3,7 @@
  */
 package sentinel.context;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,7 +23,14 @@ import javax.persistence.TemporalType;
  *
  */
 @Entity
-public class SentinelExecutionContext extends AbstractSentinelExcecutionContext {
+@Table(name = "SENTINEL_CONTEXT")
+public class SentinelContext implements Serializable {
+
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 5619703689701182416L;
 
 	@Id
 	@Column(name = "SC_ID")
@@ -31,8 +40,17 @@ public class SentinelExecutionContext extends AbstractSentinelExcecutionContext 
 	@Column(name = "SC_NAME")
 	private String name;
 
-	@Column(name = "SC_MESSAGE_ORIGINE")
+	@Column(name = "SC_MESSAGE_ORIGINE", columnDefinition = "mediumtext")
 	private String messageOrigine;
+
+	@Column(name = "SC_MESSAGE_ORIGINE_ID")
+	private int messageOrigineId;
+
+	@Column(name = "SC_SOURCE")
+	private String source;
+
+	@Column(name = "SC_DESTINATION")
+	private String destination;
 
 	@Column(name = "SC_LOGGED_DATE")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -45,13 +63,15 @@ public class SentinelExecutionContext extends AbstractSentinelExcecutionContext 
 	@Column(name = "SC_ERROR_MESSAGE")
 	private String errorMessage;
 
-	@Column(name = "SC_STACKTRACE")
+	@Column(name = "SC_STACKTRACE", columnDefinition = "mediumtext")
 	private String stackTrace;
 
 	@Column(name = "SC_STATUS")
 	@Enumerated(EnumType.STRING)
 	private StatusType status;
 
+	@Column(name = "SC_FLOW_TYPE")
+	@Enumerated(EnumType.STRING)
 	private FlowType flowType;
 
 	/**
@@ -174,6 +194,41 @@ public class SentinelExecutionContext extends AbstractSentinelExcecutionContext 
 		this.messageOrigine = messageOrigine;
 	}
 
+	@PrePersist
+	protected void onCreate() {
+		loggedDate = new Date();
+	}
+
+	/**
+	 * @return the source
+	 */
+	public String getSource() {
+		return source;
+	}
+
+	/**
+	 * @param source
+	 *            the source to set
+	 */
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	/**
+	 * @return the destination
+	 */
+	public String getDestination() {
+		return destination;
+	}
+
+	/**
+	 * @param destination
+	 *            the destination to set
+	 */
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
 	/**
 	 * @return the flowType
 	 */
@@ -189,9 +244,19 @@ public class SentinelExecutionContext extends AbstractSentinelExcecutionContext 
 		this.flowType = flowType;
 	}
 
-	@PrePersist
-	protected void onCreate() {
-		loggedDate = new Date();
+	/**
+	 * @return the messageOrigineId
+	 */
+	public int getMessageOrigineId() {
+		return messageOrigineId;
+	}
+
+	/**
+	 * @param messageOrigineId
+	 *            the messageOrigineId to set
+	 */
+	public void setMessageOrigineId(int messageOrigineId) {
+		this.messageOrigineId = messageOrigineId;
 	}
 
 }

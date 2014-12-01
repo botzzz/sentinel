@@ -22,6 +22,9 @@ public abstract class AbstractXmlSerializable implements IXmlSerializable {
 	public static final Logger logger = Logger
 			.getLogger(AbstractXmlSerializable.class);
 
+	/* (non-Javadoc)
+	 * @see xml.IXmlSerializable#convertToString()
+	 */
 	public String convertToString() {
 		logger.debug("converting the object to String...");
 

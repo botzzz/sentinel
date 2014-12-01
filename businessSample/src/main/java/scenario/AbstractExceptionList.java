@@ -29,10 +29,12 @@ public abstract class AbstractExceptionList {
 	 * Throw the next exception of the list.
 	 */
 	public void next() throws Exception {
-		Exception e = scenarioList.get((currentIndex++ % (scenarioList.size() - 1)));
-		if(e != null){
+		throw scenarioList.get((currentIndex++ % (scenarioList.size() - 1)));
+
+		Exception e = scenarioList
+				.get((currentIndex++ % (scenarioList.size() - 1)));
+		if (e != null)
 			throw e;
-		}
 	}
 
 	/**

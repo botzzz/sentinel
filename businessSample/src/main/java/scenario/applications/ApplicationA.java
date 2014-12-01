@@ -7,6 +7,8 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+import sentinel.Sentinel;
+import sentinel.context.FlowType;
 import utils.Util;
 import xml.message.Client;
 import xml.message.Facture;
@@ -40,7 +42,13 @@ public abstract class ApplicationA extends Thread implements IApplication {
 		facture.setClient(client);
 		facture.setMontant(new Random().nextFloat());
 
-		producer.sendToJMSTopic(facture);
+		String applicationSource = "Application A";
+		Sentinel sentinel = new Sentinel();
+		sentinel.init("Application A produces", facture.convertToString(),
+				"Application A", "Applcation A", FlowType.PRODUCED, null);
+		producer.sendToJMSTopic(facture, sentinel.getContext().getId(),
+				applicationSource);
+
 	}
 
 }

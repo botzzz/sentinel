@@ -6,8 +6,6 @@ package utils;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
-
 /**
  * Utility class.
  *
@@ -15,11 +13,6 @@ import org.apache.log4j.Logger;
  *
  */
 public class Util {
-
-	/**
-	 * the logger
-	 */
-	public static Logger logger = Logger.getLogger(Util.class);
 
 	/**
 	 * Generate a universally unique identifiers.

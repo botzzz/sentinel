@@ -11,6 +11,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Queue;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.jms.Topic;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -49,8 +50,14 @@ public class SampleProducer extends AbstractJMSSample {
 
 	private JmsTemplate jmsTemplate;
 
+	/**
+	 * the topic destination
+	 */
 	private Topic topicDestination;
 
+	/**
+	 * the queue destination
+	 */
 	private Queue queueDestination;
 
 	public SampleProducer() {
@@ -117,7 +124,7 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the topicDestination
 	 */
 	public void sendToJMSTopic(final IXmlSerializable message) {
 		this.jmsTemplate.send(topicDestination, new MessageCreator() {
@@ -129,7 +136,27 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 * @param attachedContextId
+	 *            the id to set in the header
+	 */
+	public void sendToJMSTopic(final IXmlSerializable message,
+			final Integer attachedContextId, final String applicationSource) {
+		this.jmsTemplate.send(topicDestination, new MessageCreator() {
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage messageToSend = session.createTextMessage(message
+						.convertToString());
+				messageToSend.setIntProperty(Constants.CONTEXT_ID,
+						attachedContextId);
+				messageToSend.setStringProperty(Constants.APPLICATION_SOURCE,
+						applicationSource);
+				return messageToSend;
+			}
+		});
+	}
+
+	/**
+	 * @param message
+	 *            to send to the topicDestination
 	 */
 	public void sendToJMSTopic(final String message) {
 		this.jmsTemplate.send(topicDestination, new MessageCreator() {
@@ -141,7 +168,7 @@ public class SampleProducer extends AbstractJMSSample {
 
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the queueDestination
 	 */
 	public void sendToJMSQueue(final IXmlSerializable message) {
 		this.jmsTemplate.send(queueDestination, new MessageCreator() {
@@ -151,9 +178,24 @@ public class SampleProducer extends AbstractJMSSample {
 		});
 	}
 
+	public void sendToJMSQueue(final IXmlSerializable message,
+			final int attachedContextId, final String applicationSource) {
+		this.jmsTemplate.send(queueDestination, new MessageCreator() {
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage messageToSend = session.createTextMessage(message
+						.convertToString());
+				messageToSend.setIntProperty(Constants.CONTEXT_ID,
+						attachedContextId);
+				messageToSend.setStringProperty(Constants.APPLICATION_SOURCE,
+						applicationSource);
+				return messageToSend;
+			}
+		});
+	}
+
 	/**
 	 * @param message
-	 *            to send
+	 *            to send to the queue destination
 	 */
 	public void sendToJMSQueue(final String message) {
 		this.jmsTemplate.send(queueDestination, new MessageCreator() {
