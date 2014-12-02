@@ -49,14 +49,15 @@ public class Initialization extends HttpServlet {
 
 		if (action.equals("init")){
 			this.insertEntityList(50);
-		} else if (action.equals("dropall")){
-			// reading the user input
-			List<SentinelContext> sentinelContextList = sentinelContextDAO.findAll();
-			if(sentinelContextList != null && !sentinelContextList.isEmpty())
-			for(SentinelContext sentinelContext : sentinelContextList){
-				sentinelContextDAO.remove(sentinelContext.getId());
-			}
 		}
+//		else if (action.equals("dropall")){
+//			// reading the user input
+//			List<SentinelContext> sentinelContextList = sentinelContextDAO.findAll();
+//			if(sentinelContextList != null && !sentinelContextList.isEmpty())
+//			for(SentinelContext sentinelContext : sentinelContextList){
+//				sentinelContextDAO.remove(sentinelContext.getId());
+//			}
+//		}
 	}
 	
 	/**

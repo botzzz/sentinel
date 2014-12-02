@@ -26,7 +26,7 @@ import connectivity.SampleProducer;
  * @author buissartt
  *
  */
-public abstract class ApplicationC extends Thread implements IApplication {
+public class ApplicationC extends Thread implements IApplication {
 
 	private static final Logger logger = Logger.getLogger(ApplicationC.class);
 
@@ -39,7 +39,6 @@ public abstract class ApplicationC extends Thread implements IApplication {
 			Properties jndiProperties = new Properties();
 			jndiProperties.load(SampleProducer.class.getClassLoader()
 					.getResourceAsStream("jms/jms.properties"));
-			ExceptionListManager.LIST.next();
 
 			InitialContext context = null;
 			context = new InitialContext(jndiProperties);
@@ -51,11 +50,10 @@ public abstract class ApplicationC extends Thread implements IApplication {
 			logger.debug("C is waiting for a message...");
 			Message received = consumer.consume();
 			TextMessage receivedTextMessage = (TextMessage) received;
-			textReceived = "";
 			textReceived = receivedTextMessage.getText();
 
 			sentinel = new Sentinel();
-			sentinel.init("Application C consume from topic", textReceived,
+			sentinel.init("Application C", textReceived,
 					received.getStringProperty(Constants.APPLICATION_SOURCE),
 					"Application C", FlowType.CONSUMED,
 					received.getIntProperty(Constants.CONTEXT_ID));

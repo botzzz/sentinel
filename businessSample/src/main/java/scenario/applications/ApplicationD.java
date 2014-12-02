@@ -23,7 +23,7 @@ import connectivity.SampleProducer;
  * @author buissartt
  *
  */
-public abstract class ApplicationD extends Thread implements IApplication {
+public  class ApplicationD extends Thread implements IApplication {
 
 	private static final Logger logger = Logger.getLogger(ApplicationD.class);
 

@@ -21,58 +21,19 @@ public class ApplicationsTest {
 	@Test
 	public void testAllApplications() {
 		
-		ApplicationA appA = new ApplicationA() {
-			public void onError(IXmlSerializable messageOriginal, Exception e) {
-				Sentinel sentinel = new Sentinel();
+		ApplicationA appA = new ApplicationA();
+		ApplicationB appB = new ApplicationB();
+		ApplicationC appC = new ApplicationC();
+		ApplicationD appD = new ApplicationD();
 
-				// sentinel.init(Util.generateUUID(),
-				// messageOriginal.convertToString(), "Application A",
-				// null, FlowType.PRODUCED);
-				sentinel.error("error during Application A", e);
-			}
-		};
-		ApplicationB appB = new ApplicationB() {
-
-			public void onError(IXmlSerializable messageOriginal, Exception e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		};
-		ApplicationC appC = new ApplicationC() {
-
-			public void onError(IXmlSerializable messageOriginal, Exception e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		};
-
-		ApplicationD appD = new ApplicationD() {
-
-			public void onError(IXmlSerializable messageOriginal, Exception e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		};
-
-		// appA.run();
 		appB.start();
 		appC.start();
 		appD.start();
 		try {
 			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		appA.start();
-		try {
+			appA.start();
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

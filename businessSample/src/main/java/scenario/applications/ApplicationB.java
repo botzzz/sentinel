@@ -21,7 +21,7 @@ import connectivity.SampleProducer;
  * @author buissartt
  *
  */
-public abstract class ApplicationB extends Thread implements IApplication {
+public class ApplicationB extends Thread implements IApplication {
 
 	private static final Logger logger = Logger.getLogger(ApplicationB.class);
 
@@ -52,11 +52,8 @@ public abstract class ApplicationB extends Thread implements IApplication {
 
 			Message received = consumer.consume();
 
-			// ExceptionListManager.LIST.next();
-
 			TextMessage receivedTextMessage = (TextMessage) received;
 			textReceived = receivedTextMessage.getText();
-
 			
 			received.getStringProperty(Constants.CONTEXT_ID);
 			Sentinel sentinel = new Sentinel();
